@@ -10,7 +10,7 @@ source:
     git_url: https://github.com/Electrostatics/apbs-pdb2pqr.git
 
 build:
-    number: 0
+    number: 1
     skip: true  # [win or osx]
 
 requirements:
