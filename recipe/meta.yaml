@@ -33,11 +33,6 @@ test:
     commands:
         - apbs --version || test $? -eq 13
 
-build_platform:
-  osx_arm64: osx_64
-
-test_on_native_only: true
-
 about:
     home: http://www.poissonboltzmann.org/
     license: BSD-3-Clause
