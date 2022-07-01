@@ -1,17 +1,16 @@
 {% set name = "apbs" %}
-{% set version = "1.5" %}
+{% set version = "3.4.1" %}
+{% set number = "0" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-    git_rev: apbs-{{ version }}
-    git_url: https://github.com/Electrostatics/apbs-pdb2pqr.git
+    url: https://github.com/Electrostatics/apbs/archive/refs/tags/v{{ version }}.tar.gz
 
 build:
-    number: 0
-    skip: true  # [win or osx]
+    number: {{ number }}
 
 requirements:
     build:
@@ -19,22 +18,34 @@ requirements:
         - {{ compiler('cxx') }}
         - cmake
         - make
+        - boost
+        - swig
     host:
         - ncurses
         - bzip2
+        - metis
+        - openblas
+        - pybind11
+        - suitesparse
+        - superlu
 
 test:
     commands:
         - apbs --version || test $? -eq 13
 
+build_platform:
+  osx_arm64: osx_64
+
+test_on_native_only: true
+
 about:
     home: http://www.poissonboltzmann.org/
     license: BSD-3-Clause
     license_family: BSD
-    license_file: apbs/doc/license/LICENSE.txt
+    license_file: LICENSE.md
     summary: APBS solves the equations of continuum electrostatics for large biomolecular assemblages.
-    doc_url: http://www.poissonboltzmann.org/apbs
-    dev_url: https://github.com/Electrostatics/apbs-pdb2pqr
+    doc_url: https://apbs.readthedocs.io/en/latest/
+    dev_url: https://github.com/Electrostatics/apbs
 
 extra:
   recipe-maintainers:
