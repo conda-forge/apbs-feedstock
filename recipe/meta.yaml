@@ -12,9 +12,11 @@ source:
 
 build:
     number: {{ number }}
+    skip: true  # [py < 37]
 
 requirements:
     build:
+        - python                                 # [build_platform != target_platform]
         - {{ compiler('c') }}
         - {{ compiler('cxx') }}
         - cmake
@@ -35,8 +37,6 @@ requirements:
         - libcblas
         - liblapack
         - liblapacke
-        - openblas   # [not win]
-        - mkl        # [win]
     run:
         - python
 
