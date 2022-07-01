@@ -9,7 +9,7 @@ package:
 source:
     url: https://github.com/Electrostatics/apbs/archive/refs/tags/v{{ version }}.tar.gz
     sha256: 644e6246fd37c9dd4172fc7be1763337082ab8584dbcd53e738c831b62c89bb2
-    
+
 build:
     number: {{ number }}
 
@@ -29,6 +29,13 @@ requirements:
         - pybind11
         - suitesparse
         - superlu
+        - gettext
+        - libblas
+        - libcblas
+        - liblapack
+        - liblapacke
+        - openblas   # [not win]
+        - mkl        # [win]
 
 test:
     commands:
