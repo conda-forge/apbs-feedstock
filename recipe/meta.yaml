@@ -37,6 +37,8 @@ requirements:
         - liblapacke
         - openblas   # [not win]
         - mkl        # [win]
+    run:
+        - python
 
 test:
     commands:
