@@ -5,10 +5,14 @@ set -e
 cd apbs
 
 # does not work in a separate ./build directory
-cmake \
+cmake ${CMAKE_ARGS} \
   -DBUILD_TOOLS:BOOL=OFF \
   -DBUILD_SHARED_LIBS:BOOL=ON \
-  -DCMAKE_INSTALL_PREFIX:PATH=${PREFIX} .
+  -DBUILD_SUPERLU:BOOL=OFF \
+  -DCHECK_EPSILON=OFF \
+  -DPYTHON_VERSION=${PY_VER} \
+  -DCMAKE_INSTALL_PREFIX:PATH=${PREFIX} \
+  ..
 
 make
 make install
