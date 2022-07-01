@@ -22,6 +22,7 @@ requirements:
         - boost
         - swig
     host:
+        - python
         - ncurses
         - bzip2
         - metis
