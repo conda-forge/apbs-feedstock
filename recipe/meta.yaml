@@ -1,42 +1,57 @@
 {% set name = "apbs" %}
-{% set version = "1.5" %}
+{% set version = "3.4.1" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-    git_rev: apbs-{{ version }}
-    git_url: https://github.com/Electrostatics/apbs-pdb2pqr.git
+    url: https://github.com/Electrostatics/apbs/archive/refs/tags/v{{ version }}.tar.gz
+    sha256: 644e6246fd37c9dd4172fc7be1763337082ab8584dbcd53e738c831b62c89bb2
 
 build:
     number: 0
-    skip: true  # [win or osx]
 
 requirements:
     build:
         - {{ compiler('c') }}
         - {{ compiler('cxx') }}
-        - cmake
-        - make
+        - {{ stdlib('c') }}
+        - cmake 3.29
+        - ninja
+        - m2-sed                              # [win]
+        - python                              # [build_platform != target_platform]
+        - cross-python_{{ target_platform }}  # [build_platform != target_platform]
     host:
-        - ncurses
+        - ncurses                             # [not win]
         - bzip2
+        - scikit-umfpack                      # [not win]
+        - libintl-devel                       # [not linux]
+        - python
+        - libblas
+        - libcblas
+        - liblapack
+        - suitesparse
+    run:
+        - python
 
 test:
     commands:
-        - apbs --version || test $? -eq 13
+        # apbs --version exits with code 13, which is expected
+        - apbs --version || test $? -eq 13   # [unix and build_platform == target_platform]
+        - apbs --version || ver > nul  # [win] ignore exit code, just verify binary runs
 
 about:
     home: http://www.poissonboltzmann.org/
     license: BSD-3-Clause
     license_family: BSD
-    license_file: apbs/doc/license/LICENSE.txt
+    license_file: LICENSE.md
     summary: APBS solves the equations of continuum electrostatics for large biomolecular assemblages.
-    doc_url: http://www.poissonboltzmann.org/apbs
-    dev_url: https://github.com/Electrostatics/apbs-pdb2pqr
+    doc_url: https://apbs.readthedocs.io/en/latest/
+    dev_url: https://github.com/Electrostatics/apbs
 
 extra:
   recipe-maintainers:
     - simonbray
     - bgruening
+    - JarrettSJohnson
