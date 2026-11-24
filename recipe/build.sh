@@ -2,7 +2,9 @@
 
 set -e
 
-export CFLAGS="${CFLAGS} -Wno-error=implicit-int -Wno-error=incompatible-pointer-types"
+# FETK uses K&R-style declarations like `void (*matvec)()`, which mean "no
+# arguments" under C23 (the GCC 15 default), so stay on gnu17.
+export CFLAGS="${CFLAGS} -std=gnu17 -Wno-error=implicit-int -Wno-error=incompatible-pointer-types"
 
 # Help CMake find BLAS/LAPACK in the conda environment
 export BLAS_LIBRARIES="${PREFIX}/lib/libblas${SHLIB_EXT};${PREFIX}/lib/libcblas${SHLIB_EXT}"
